@@ -1,6 +1,6 @@
 import streamlit as st
 import pickle
-import numpy as np
+import pandas as pd
 
 with open("model.pkl", "rb") as file:
     model = pickle.load(file)
@@ -11,12 +11,12 @@ with open("scaler.pkl", "rb") as file:
 
 st.set_page_config(
     page_title="Placement Predictor",
-    page_icon="🎓",
-    layout="centered"
+    page_icon="🎓"
 )
 
 st.title("🎓 Placement Prediction")
 st.write("Enter your CGPA and IQ to predict placement.")
+
 
 cgpa = st.number_input(
     "CGPA",
@@ -34,9 +34,13 @@ iq = st.number_input(
     step=1
 )
 
+
 if st.button("Predict Placement"):
 
-    input_data = np.array([[cgpa, iq]])
+    input_data = pd.DataFrame(
+        [[cgpa, iq]],
+        columns=["cgpa", "iq"]
+    )
 
     input_scaled = scaler.transform(input_data)
 
